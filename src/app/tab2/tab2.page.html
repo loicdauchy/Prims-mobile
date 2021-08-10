@@ -1,17 +1,42 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Tab 2
+<ion-header>
+  <ion-toolbar color="light">
+    <ion-title mode="md" slot="end" color="tertiary">
+      Mes cartes
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 2</ion-title>
-    </ion-toolbar>
-  </ion-header>
 
-  <app-explore-container name="Tab 2 page"></app-explore-container>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)" pullMin="130" pullMax="400">
+    <ion-refresher-content
+      pullingIcon="chevron-down-circle-outline"
+      pullingText="Tirer pour rafraîchir"
+      refreshingSpinner="circles"
+      refreshingText="Chargement..."
+      >
+    </ion-refresher-content>
+  </ion-refresher>
+  
+  <div class="center">
+    <div class="cards" *ngFor="let c of param.cards">
+
+      <div class="userInfos">
+        <div class="picture">
+          <ion-avatar [id]="'avatar'+c.id"></ion-avatar>
+        </div>
+        <div class="infos">
+          <ion-label>{{ c.commerce.nom }}</ion-label>
+          <ion-label color="tertiary" (click)="mail(c.commerce.patron.email)">{{ c.commerce.patron.email }}</ion-label>
+        </div>
+      </div>
+
+      <div class="points">
+        <ion-label>
+          Nombre de points : {{ c.points }}
+        </ion-label>
+      </div>
+
+    </div>
+  </div>
 </ion-content>
